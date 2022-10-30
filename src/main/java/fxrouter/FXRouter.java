@@ -1,22 +1,22 @@
 package fxrouter;
 
+import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import ku.cs.App;
 
 import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.HashMap;
+import animatefx.animation.*;
 
 public final class FXRouter {
     private static final String WINDOW_TITLE = "";
-    private static final Double WINDOW_WIDTH = 800.0D;
+    private static final Double WINDOW_WIDTH = 1000.0D;
     private static final Double WINDOW_HEIGHT = 600.0D;
     private static final Double FADE_ANIMATION_DURATION = 800.0D;
     private static FXRouter router;
@@ -50,6 +50,8 @@ public final class FXRouter {
 
     public static void bind(Object ref, Stage win, String winTitle, double winWidth, double winHeight) {
         checkInstances(ref, win);
+        // todo: Undecorated
+        // window.initStyle(StageStyle.UNDECORATED);
         windowTitle = winTitle;
         windowWidth = winWidth;
         windowHeight = winHeight;
@@ -90,9 +92,28 @@ public final class FXRouter {
         routes.put(routeLabel, routeScene);
     }
 
+
+    public static void start(String routeLabel) throws IOException {
+        RouteScene route = (RouteScene)routes.get(routeLabel);
+        currentRoute = route;
+        String scenePath = "/" + route.scenePath;
+        Parent resource = (Parent)FXMLLoader.load((new Object() {
+        }).getClass().getResource(scenePath));
+        window.setTitle(route.windowTitle);
+        window.setScene(new Scene(resource, route.sceneWidth, route.sceneHeight));
+        window.centerOnScreen();
+        window.show();
+        new FadeInLeft(resource).play();
+    }
+
     public static void goTo(String routeLabel) throws IOException {
         RouteScene route = (RouteScene)routes.get(routeLabel);
         loadNewRoute(route);
+    }
+
+    public static void goTo(String routeLabel, double sceneWidth, double sceneHeight) throws IOException {
+        RouteScene route = (RouteScene)routes.get(routeLabel);
+        loadNewRoute(route, sceneWidth, sceneHeight);
     }
 
     public static void goTo(String routeLabel, Object data) throws IOException {
@@ -101,26 +122,34 @@ public final class FXRouter {
         loadNewRoute(route);
     }
 
+    public static void goTo(String routeLabel, Object data, double sceneWidth, double sceneHeight) throws IOException {
+        RouteScene route = (RouteScene)routes.get(routeLabel);
+        route.data = data;
+        loadNewRoute(route, sceneWidth, sceneHeight);
+    }
+
     private static void loadNewRoute(RouteScene route) throws IOException {
         currentRoute = route;
         String scenePath = "/" + route.scenePath;
         Parent resource = (Parent)FXMLLoader.load((new Object() {
         }).getClass().getResource(scenePath));
-        window.getIcons().add(new Image(App.class.getResourceAsStream( "images/icon.png" )));
         window.setTitle(route.windowTitle);
         window.setScene(new Scene(resource, route.sceneWidth, route.sceneHeight));
-        window.setResizable(false);
+        window.centerOnScreen();
         window.show();
-        fadeIn(resource);
-        // routeAnimation(resource);
+        new FadeIn(resource).play();
     }
 
-    public static void fadeIn(Node node) {
-        node.setOpacity(0);
-        FadeTransition fade = new FadeTransition(Duration.seconds(1), node);
-        fade.setFromValue(0);
-        fade.setToValue(1);
-        fade.play();
+    private static void loadNewRoute(RouteScene route, double sceneWidth, double sceneHeight) throws IOException {
+        currentRoute = route;
+        String scenePath = "/" + route.scenePath;
+        Parent resource = (Parent)FXMLLoader.load((new Object() {
+        }).getClass().getResource(scenePath));
+        window.setTitle(route.windowTitle);
+        window.setScene(new Scene(resource, sceneWidth, sceneHeight));
+        window.centerOnScreen();
+        window.show();
+        new FadeIn(resource).play();
     }
 
     public static void startFrom(String routeLabel) throws Exception {
@@ -143,7 +172,6 @@ public final class FXRouter {
     private static void routeAnimation(Parent node) {
         String anType = animationType != null ? animationType.toLowerCase() : "";
         byte var3 = -1;
-
         switch(anType.hashCode()) {
             case 3135100:
                 if (anType.equals("fade")) {
@@ -160,6 +188,9 @@ public final class FXRouter {
                     default:
                 }
         }
+    }
+    private static void routeAnimationSwitch(Parent node) {
+        new FadeIn(node).play();
     }
 
     public static Object getData() {
@@ -205,5 +236,3 @@ public final class FXRouter {
         }
     }
 }
-
-

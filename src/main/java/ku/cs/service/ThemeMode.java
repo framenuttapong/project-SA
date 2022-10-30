@@ -2,8 +2,7 @@ package ku.cs.service;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
-import ku.cs.controller.login.LoginController;
+import ku.cs.controllers.login.LoginController;
 
 public class ThemeMode {
 

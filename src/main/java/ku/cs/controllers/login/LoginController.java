@@ -1,14 +1,15 @@
-package ku.cs.controller.login;
+package ku.cs.controllers.login;
 
 import animatefx.animation.Flash;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.PasswordField;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import fxrouter.FXRouter;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import ku.cs.service.ConnectionClass;
 import ku.cs.service.ThemeMode;
 
@@ -32,32 +33,6 @@ public class LoginController {
     public void initialize() {
         alert = new Alert(Alert.AlertType.NONE);
 
-//        accountsList = new AccountList();
-//        productList = new ProductList();
-//        reviewList = new ReviewList();
-//        orderList = new OrderList();
-//        reportList = new ReportList();
-//
-//        imageDirectory = new ImageDirectory();
-//
-//        accountListDataSource = new AccountListFileDataSource();
-//        productListDataSource = new ProductListFileDataSource();
-//        reviewListDataSource = new ReviewListFileDataSource();
-//        orderListDataSource = new OrderListFileDataSource();
-//        reportListDataSource = new ReportListFileDataSource();
-//
-//        accountsList = accountListDataSource.getData();
-//        productList = productListDataSource.getData();
-//        reviewList = reviewListDataSource.getData();
-//        orderList = orderListDataSource.getData();
-//        reportList = reportListDataSource.getData();
-//
-//        if (!accountsList.isExistUsername("admin")) {
-//            accountsList.addAccount(new Account("Admin","admin", "admin", "admin"));
-//        }
-//        accountListDataSource.writeData(accountsList);
-//        ThemeMode.setThemeMode(pane);
-//        System.out.println("initialize LoginController");
     }
 
     @FXML
@@ -76,7 +51,7 @@ public class LoginController {
         String username = usernameTextField.getText();
         String password = passwordField.getText();
         String scene;
-        if(!username.isEmpty() && !password.isEmpty()){
+        if (!username.isEmpty() && !password.isEmpty()) {
             validation();
         } else {
             alert.setAlertType(Alert.AlertType.WARNING);
@@ -135,7 +110,7 @@ public class LoginController {
 
             while (queryResult.next()) {
                 if (queryResult.getInt(1)==1) {
-                    fxrouter.FXRouter.goTo("register");
+                    fxrouter.FXRouter.goTo("marketplace");
                 } else {
                     alert.setAlertType(Alert.AlertType.WARNING);
                     alert.setContentText("Username or password is incorrect.");
@@ -145,7 +120,7 @@ public class LoginController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
-            System.err.println("ไปที่หน้า "+ "register" + " ไม่ได้");
+            System.err.println("ไปที่หน้า marketplace ไม่ได้");
                 System.err.println("ให้ตรวจสอบการกำหนด route");
         }
     }

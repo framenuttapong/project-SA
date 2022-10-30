@@ -1,33 +1,23 @@
-package ku.cs.controller.login;
+package ku.cs.controllers.login;
 
-import animatefx.animation.Jello;
 import fxrouter.FXRouter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import ku.cs.service.ThemeMode;
 
 import java.io.IOException;
 
-public class CreatorController {
+public class SuggestionController {
     @FXML private AnchorPane pane;
-    @FXML private ImageView phat;
-    @FXML private ImageView copy;
-    @FXML private ImageView byu;
-    @FXML private ImageView frame;
 
     @FXML
     public void initialize() {
         ThemeMode.setThemeMode(pane);
-        new Jello(phat).play();
-        new Jello(copy).play();
-        new Jello(byu).play();
-        new Jello(frame).play();
     }
 
     @FXML
-    public void handleBackToLoginBtn(ActionEvent actionEvent) throws IOException {
+    public void handleBackToLoginBtn(ActionEvent actionEvent) {
         try {
             FXRouter.goTo("login");
         } catch (IOException e) {

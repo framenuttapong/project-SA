@@ -1,20 +1,16 @@
-package ku.cs.controller.register;
+package ku.cs.controllers.register;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import fxrouter.FXRouter;
-import ku.cs.model.account.Account;
 import ku.cs.service.ConnectionClass;
 import ku.cs.service.ThemeMode;
+import org.w3c.dom.events.MouseEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,22 +25,20 @@ public class RegisterController {
     @FXML private TextField emailTextField;
     @FXML private TextField phoneTextField;
     @FXML private TextField addressTextField;
-    @FXML private TextField roleTextField;
     @FXML private TextField postTextField;
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
-    @FXML private Circle circleImage;
-    @FXML private AnchorPane pane;
+//    @FXML private Circle circleImage;
+//    @FXML private AnchorPane pane;
 
     private Alert alert;
     private File imageFile;
-    private Account accounts;
 
     @FXML
     public void initialize() {
         alert = new Alert(Alert.AlertType.NONE);
-        circleImage.setFill(new ImagePattern(new Image(getClass().getResource("/ku/cs/images/default_profile.png").toExternalForm())));
-        ThemeMode.setThemeMode(pane);
+//        circleImage.setFill(new ImagePattern(new Image(getClass().getResource("/ku/cs/images/default_profile.png").toExternalForm())));
+//        ThemeMode.setThemeMode(pane);
         System.out.println("initialize RegisterController");
     }
 
@@ -56,7 +50,6 @@ public class RegisterController {
         String email = emailTextField.getText();
         String phone = phoneTextField.getText();
         String address = addressTextField.getText();
-        String role = roleTextField.getText();
         String postcode = postTextField.getText();
         String confirmPassword = confirmPasswordField.getText();
         int status = 0;
@@ -100,7 +93,7 @@ public class RegisterController {
                 ConnectionClass connectionClass = new ConnectionClass();
                 Connection connection = connectionClass.getConnection();
                 String sql = "INSERT INTO USER (Username,Password,U_Name,Email,Phone,Address,Role,Postcode,U_Status)VALUES('" + username + "','"
-                    + password + "','" + name + "','" + email + "','" + phone + "','" + address + "','" + role
+                    + password + "','" + name + "','" + email + "','" + phone + "','" + address + "','" + "customer"
                     + "','" + postcode + "','" + status + "')";
                 Statement statement = connection.createStatement();
                 statement.executeUpdate(sql);
@@ -142,27 +135,18 @@ public class RegisterController {
         }
         return false;
     }
-    @FXML void handleUploadAnImageBtn(ActionEvent actionEvent) throws IOException {
-        FileChooser chooserImage = new FileChooser();
-        FileChooser.ExtensionFilter extFilter =
-                new FileChooser.ExtensionFilter("Images","*.jpg", "*.png", "*.jpeg");
-        chooserImage.getExtensionFilters().add(extFilter);
-        imageFile = chooserImage.showOpenDialog(new Stage());
-        if(imageFile != null) {
-            String imageName = imageFile.toURI().toURL().toString();
-            circleImage.setFill(new ImagePattern(new Image(imageName)));
-        }
-    }
+//    @FXML void handleUploadAnImageBtn(ActionEvent actionEvent) throws IOException {
+//        FileChooser chooserImage = new FileChooser();
+//        FileChooser.ExtensionFilter extFilter =
+//                new FileChooser.ExtensionFilter("Images","*.jpg", "*.png", "*.jpeg");
+//        chooserImage.getExtensionFilters().add(extFilter);
+//        imageFile = chooserImage.showOpenDialog(new Stage());
+//        if(imageFile != null) {
+//            String imageName = imageFile.toURI().toURL().toString();
+//            circleImage.setFill(new ImagePattern(new Image(imageName)));
+//        }
+//    }
 
-    @FXML
-    public void handleBackToLoginBtn(ActionEvent actionEvent) {
-        try {
-            FXRouter.goTo("login");
-        } catch (IOException e) {
-            System.err.println("กลับไปที่หน้า login ไม่ได้");
-            System.err.println("ให้ตรวจสอบการกำหนด route");
-        }
-    }
     public boolean isValidPassword(String password) {
         return ((password!= null)
                 && (!password.equals(""))
@@ -195,4 +179,19 @@ public class RegisterController {
     public boolean isValidName(String name) {
         return ((name!= null) && (!name.equals("")));
     }
+
+    public void handleBackMouseEvent(MouseEvent event) {
+
+    }
+
+    @FXML
+    public void handleBackMouseEvent(javafx.scene.input.MouseEvent mouseEvent) {
+        try {
+            FXRouter.goTo("login");
+        } catch (IOException e) {
+            System.err.println("กลับไปที่หน้า login ไม่ได้");
+            System.err.println("ให้ตรวจสอบการกำหนด route");
+        }
+    }
+
 }
