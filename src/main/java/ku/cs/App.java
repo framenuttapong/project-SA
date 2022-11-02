@@ -19,26 +19,26 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-//        FXRouter.bind(this, stage, "SA Shop");
         Image icon = new Image(getClass().getResource("/ku/cs/icons/moon.png").toExternalForm());
         stage.getIcons().add(icon);
         FXRouter.bind(this, stage, "SA Shop", 750, 500);
         configRoute();
-        FXRouter.goTo("marketplace");
+        FXRouter.goTo("login");
     }
 
     private static void configRoute() {
         String packageStr = "ku/cs/interfaces/";
-
-        FXRouter.when("addProduct", packageStr+ "add_product.fxml");
-//        FXRouter.when("createEmployee", packageStr2+ "create_employee.fxml");
+        FXRouter.when("add_product", packageStr+ "add_product.fxml");
+        FXRouter.when("create_employee", packageStr+ "create_employee.fxml");
+        FXRouter.when("create_promotion",packageStr+ "create_promotion.fxml");
+        FXRouter.when("create_user", packageStr+ "create_user.fxml");
         FXRouter.when("login", packageStr+ "login.fxml");
-        FXRouter.when("register", packageStr+ "register.fxml");
         FXRouter.when("marketplace", packageStr+ "market.fxml");
+        FXRouter.when("order_product", packageStr+ "order_product.fxml");
         FXRouter.when("product", packageStr+ "product.fxml");
-        FXRouter.when("creator",packageStr+ "creator.fxml");
-        FXRouter.when("create_promotion_code",packageStr+ "create_promotion_code.fxml");
-
+        FXRouter.when("product_detail", packageStr+ "product_detail.fxml");
+        FXRouter.when("purchase_orders",packageStr+ "purchase_orders.fxml");
+        FXRouter.when("register", packageStr+ "register.fxml");
     }
 
     static void setRoot(String fxml) throws IOException {

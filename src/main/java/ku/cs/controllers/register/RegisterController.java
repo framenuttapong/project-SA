@@ -4,13 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import fxrouter.FXRouter;
 import ku.cs.service.ConnectionClass;
 import ku.cs.service.ThemeMode;
-import org.w3c.dom.events.MouseEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class RegisterController {
+
+    @FXML private Circle btnClose;
+    @FXML private ImageView btnBack;
     @FXML private TextField nameTextField;
     @FXML private TextField usernameTextField;
     @FXML private TextField emailTextField;
@@ -92,9 +96,9 @@ public class RegisterController {
             if(checkUsername()) {
                 ConnectionClass connectionClass = new ConnectionClass();
                 Connection connection = connectionClass.getConnection();
-                String sql = "INSERT INTO USER (Username,Password,U_Name,Email,Phone,Address,Role,Postcode,U_Status)VALUES('" + username + "','"
-                    + password + "','" + name + "','" + email + "','" + phone + "','" + address + "','" + "customer"
-                    + "','" + postcode + "','" + status + "')";
+                String sql = "INSERT INTO USER (Username,Password,U_Name,Email,Phone,Address,Role,Postcode,U_Status)VALUES('"
+                        + username + "','" + password + "','" + name + "','" + email + "','" + phone + "','" + address + "','"
+                        + "Customer" + "','" + postcode + "','" + status + "')";
                 Statement statement = connection.createStatement();
                 statement.executeUpdate(sql);
                 alert.setAlertType(Alert.AlertType.INFORMATION);
@@ -135,18 +139,6 @@ public class RegisterController {
         }
         return false;
     }
-//    @FXML void handleUploadAnImageBtn(ActionEvent actionEvent) throws IOException {
-//        FileChooser chooserImage = new FileChooser();
-//        FileChooser.ExtensionFilter extFilter =
-//                new FileChooser.ExtensionFilter("Images","*.jpg", "*.png", "*.jpeg");
-//        chooserImage.getExtensionFilters().add(extFilter);
-//        imageFile = chooserImage.showOpenDialog(new Stage());
-//        if(imageFile != null) {
-//            String imageName = imageFile.toURI().toURL().toString();
-//            circleImage.setFill(new ImagePattern(new Image(imageName)));
-//        }
-//    }
-
     public boolean isValidPassword(String password) {
         return ((password!= null)
                 && (!password.equals(""))
@@ -180,17 +172,22 @@ public class RegisterController {
         return ((name!= null) && (!name.equals("")));
     }
 
-    public void handleBackMouseEvent(MouseEvent event) {
-
-    }
-
     @FXML
-    public void handleBackMouseEvent(javafx.scene.input.MouseEvent mouseEvent) {
-        try {
-            FXRouter.goTo("login");
-        } catch (IOException e) {
-            System.err.println("กลับไปที่หน้า login ไม่ได้");
-            System.err.println("ให้ตรวจสอบการกำหนด route");
+    private void handleMouseEvent(MouseEvent event) {
+
+        // todo: Close Program
+        if (event.getSource() == btnClose) {
+            System.exit(0);
+        }
+
+        // todo: Button back
+        if (event.getSource() == btnBack) {
+            try {
+                FXRouter.goTo("login");
+            } catch (IOException e) {
+                System.err.println("กลับไปที่หน้า login ไม่ได้");
+                System.err.println("ให้ตรวจสอบการกำหนด route");
+            }
         }
     }
 

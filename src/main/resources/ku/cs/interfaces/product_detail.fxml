@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -15,7 +14,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderAddProduct" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controllers.product.AddProductController">
+<BorderPane fx:id="borderAddProduct" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controllers.product.ProductDetailController">
     <left>
         <Pane prefHeight="500.0" prefWidth="375.0" styleClass="linear-gradient" stylesheets="@styles/style2.css" BorderPane.alignment="CENTER">
             <children>
@@ -45,6 +44,14 @@
                                 <Insets top="15.0" />
                             </VBox.margin>
                         </Circle>
+                        <Label fx:id="NameLabel" text="NameLabel" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="25.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets top="15.0" />
+                            </VBox.margin>
+                        </Label>
                     </children>
                 </VBox>
             </children>
@@ -75,7 +82,7 @@
                         </Label>
                         <VBox alignment="CENTER_LEFT" prefHeight="500.0" prefWidth="375.0">
                             <children>
-                                <Label prefHeight="45.0" text="Add Product">
+                                <Label prefHeight="45.0" text="Product Detail">
                                     <font>
                                         <Font name="System Bold" size="30.0" />
                                     </font>
@@ -83,44 +90,44 @@
                                         <Insets left="30.0" top="20.0" />
                                     </VBox.margin>
                                 </Label>
-                                <TextField fx:id="productNameTextField" prefHeight="40.0" prefWidth="300.0" promptText="Product Name">
+                                <TextField fx:id="nameLabel" prefHeight="40.0" prefWidth="300.0" promptText="Product Name">
                                     <VBox.margin>
                                         <Insets left="30.0" right="30.0" top="20.0" />
                                     </VBox.margin>
                                 </TextField>
-                                <TextField fx:id="productPriceTextField" layoutX="40.0" layoutY="233.0" prefHeight="40.0" prefWidth="300.0" promptText="Product Price">
+                                <TextField fx:id="priceLabel" layoutX="40.0" layoutY="233.0" prefHeight="40.0" prefWidth="300.0" promptText="Product Price">
                                     <VBox.margin>
                                         <Insets left="30.0" right="30.0" top="20.0" />
                                     </VBox.margin>
                                 </TextField>
-                                <TextField fx:id="quantityTextField" layoutX="10.0" layoutY="442.0" prefHeight="40.0" prefWidth="300.0" promptText="Product Quantity / kg.">
+                                <TextField fx:id="quantityLabel" layoutX="10.0" layoutY="442.0" prefHeight="40.0" prefWidth="300.0" promptText="Product Quantity">
                                     <VBox.margin>
                                         <Insets left="30.0" right="30.0" top="20.0" />
                                     </VBox.margin>
                                 </TextField>
-                                <ComboBox fx:id="categoryComboBox" onAction="#chooseCategory" prefHeight="40.0" prefWidth="320.0" promptText="Product Type">
+                                <TextField fx:id="productTypeLabel" layoutX="40.0" layoutY="237.0" prefHeight="40.0" prefWidth="300.0" promptText="Product Type">
                                     <VBox.margin>
                                         <Insets left="30.0" right="30.0" top="20.0" />
                                     </VBox.margin>
-                                </ComboBox>
-                                <Button fx:id="btnChangePicture" mnemonicParsing="false" onAction="#handleUploadProductImageBtn" prefHeight="35.0" prefWidth="320.0" styleClass="button-login" stylesheets="@styles/style2.css" text="Change picture">
+                                </TextField>
+                                <TextField fx:id="quantityTextField" layoutX="40.0" layoutY="239.0" prefHeight="40.0" prefWidth="300.0" promptText="Please enter the amount you want">
+                                    <VBox.margin>
+                                        <Insets left="30.0" right="30.0" top="20.0" />
+                                    </VBox.margin>
+                                </TextField>
+                                <Button fx:id="btnBuy" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="35.0" prefWidth="320.0" styleClass="button-login" stylesheets="@styles/style2.css" text="Buy Product">
                                     <VBox.margin>
                                         <Insets left="30.0" right="30.0" top="20.0" />
                                     </VBox.margin>
                                 </Button>
-                                <Button fx:id="btnAddProduct" mnemonicParsing="false" onAction="#handleAddProductBtn" prefHeight="35.0" prefWidth="320.0" styleClass="button-login" stylesheets="@styles/style2.css" text="Add product">
+                                <Label fx:id="errorLabel" alignment="CENTER" prefHeight="17.0" prefWidth="327.0" textFill="RED">
                                     <VBox.margin>
                                         <Insets left="30.0" right="30.0" top="20.0" />
-                                    </VBox.margin>
-                                </Button>
-                                <Label fx:id="errorLabel" text="Label" textFill="RED">
-                                    <VBox.margin>
-                                        <Insets left="30.0" top="20.0" />
                                     </VBox.margin>
                                 </Label>
                             </children>
                         </VBox>
-                        <ImageView fx:id="btnBack" fitHeight="40.0" fitWidth="40.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#handleBackToStoreBtn" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="btnBack" fitHeight="40.0" fitWidth="40.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#handleMouseEvent" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../icons/back.png" />
                             </image>

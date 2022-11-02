@@ -1,9 +1,10 @@
-package ku.cs.controllers.manager;
+package ku.cs.controllers.register;
 
 import fxrouter.FXRouter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -18,10 +19,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class CreateEmployeeController {
+public class CreateUserController {
 
     @FXML private Circle btnClose;
+    @FXML private ComboBox roleComboBox;
     @FXML private ImageView btnBack;
+
     @FXML private TextField nameTextField;
     @FXML private TextField usernameTextField;
     @FXML private TextField emailTextField;
@@ -32,12 +35,20 @@ public class CreateEmployeeController {
     @FXML private PasswordField confirmPasswordField;
 
     private Alert alert;
+    private String roleDefault = "Customer";
+    private String role = roleDefault;
     private File imageFile;
 
     @FXML
     public void initialize() {
         alert = new Alert(Alert.AlertType.NONE);
-        System.out.println("initialize RegisterController");
+        roleComboBox.getItems().addAll(
+                "Admin",
+                "Manager",
+                "Employee",
+                "Customer"
+        );
+        System.out.println("initialize CreateUserController");
     }
 
     @FXML
@@ -91,7 +102,7 @@ public class CreateEmployeeController {
                 ConnectionClass connectionClass = new ConnectionClass();
                 Connection connection = connectionClass.getConnection();
                 String sql = "INSERT INTO USER (Username,Password,U_Name,Email,Phone,Address,Role,Postcode,U_Status)VALUES('" + username + "','"
-                        + password + "','" + name + "','" + email + "','" + phone + "','" + address + "','" + "Employee"
+                        + password + "','" + name + "','" + email + "','" + phone + "','" + address + "','" + role
                         + "','" + postcode + "','" + status + "')";
                 Statement statement = connection.createStatement();
                 statement.executeUpdate(sql);
@@ -133,17 +144,6 @@ public class CreateEmployeeController {
         }
         return false;
     }
-//    @FXML void handleUploadAnImageBtn(ActionEvent actionEvent) throws IOException {
-//        FileChooser chooserImage = new FileChooser();
-//        FileChooser.ExtensionFilter extFilter =
-//                new FileChooser.ExtensionFilter("Images","*.jpg", "*.png", "*.jpeg");
-//        chooserImage.getExtensionFilters().add(extFilter);
-//        imageFile = chooserImage.showOpenDialog(new Stage());
-//        if(imageFile != null) {
-//            String imageName = imageFile.toURI().toURL().toString();
-//            circleImage.setFill(new ImagePattern(new Image(imageName)));
-//        }
-//    }
 
     public boolean isValidPassword(String password) {
         return ((password!= null)
@@ -176,6 +176,22 @@ public class CreateEmployeeController {
     }
     public boolean isValidName(String name) {
         return ((name!= null) && (!name.equals("")));
+    }
+
+    @FXML
+    public void chooseCategory(ActionEvent actionEvent) {
+        if (roleComboBox.getValue().equals("Admin")) {
+            role = "Admin";
+        }
+        if (roleComboBox.getValue().equals("Manager")) {
+            role = "Manager";
+        }
+        if (roleComboBox.getValue().equals("Employee")) {
+            role = "Employee";
+        }
+        if (roleComboBox.getValue().equals("Customer")) {
+            role = "Customer";
+        }
     }
 
     @FXML

@@ -15,4 +15,10 @@ module ku.cs {
 
     exports ku.cs.controllers.product;
     opens ku.cs.controllers.product to javafx.fxml;
+
+    exports ku.cs.controllers.market;
+    opens ku.cs.controllers.market to javafx.fxml;
+
+    exports ku.cs.controllers.manager;
+    opens ku.cs.controllers.manager to javafx.fxml;
 }

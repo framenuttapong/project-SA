@@ -1,17 +1,24 @@
 package ku.cs.model.product;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Product {
     private int P_ID;
     private String P_Name;
-    private int P_Price;
     private int P_Quantity;
-    private String P_Image;
     private String P_Type;
+    private int P_Price;
+    private String P_Image;
 
-    public Product(int p_ID, String p_Name, int p_Price, int p_Quantity, String p_Image, String p_Type) {
+    public Product(int p_ID, String p_Name, int p_Quantity, int p_Price, String p_Image) {
+        P_ID = p_ID;
+        P_Name = p_Name;
+        P_Quantity = p_Quantity;
+        P_Price = p_Price;
+        P_Image = p_Image;
+    }
+
+    public Product(int p_ID, String p_Name, int p_Quantity, String p_Type, int p_Price, String p_Image) {
         this.P_ID = p_ID;
         this.P_Name = p_Name;
         this.P_Price = p_Price;
@@ -20,7 +27,17 @@ public class Product {
         this.P_Type = p_Type;
     }
 
+
     public Product() {}
+
+    public Product(ArrayList<Product> productList) {
+    }
+
+    public Product(int p_ID, String p_Name, String p_Image) {
+        this.P_ID = p_ID;
+        this.P_Name = p_Name;
+        this.P_Image = p_Image;
+    }
 
     public int getP_ID() {
         return P_ID;

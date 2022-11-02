@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderHome" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controllers.login.LoginController">
+<BorderPane fx:id="borderHome" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controllers.login.LoginController">
     <left>
         <Pane prefHeight="500.0" prefWidth="375.0" styleClass="linear-gradient" stylesheets="@styles/style2.css" BorderPane.alignment="CENTER">
             <children>
@@ -21,7 +21,7 @@
                     <children>
                         <HBox prefHeight="36.0" prefWidth="105.0">
                             <children>
-                                <Circle fx:id="btnClose" fill="#ff6363" radius="10.0" stroke="WHITE" strokeType="INSIDE">
+                                <Circle fx:id="btnClose" fill="#ff6363" onMouseClicked="#handleMouseEvent" radius="10.0" stroke="WHITE" strokeType="INSIDE">
                                     <HBox.margin>
                                         <Insets left="10.0" top="10.0" />
                                     </HBox.margin>
@@ -69,22 +69,22 @@
                                         <Insets left="30.0" right="30.0" top="25.0" />
                                     </VBox.margin>
                                 </PasswordField>
-                                <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#handleLoginBtn" prefHeight="35.0" prefWidth="320.0" styleClass="button-login" stylesheets="@styles/style2.css" text="Login">
+                                <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="35.0" prefWidth="320.0" styleClass="button-login" stylesheets="@styles/style2.css" text="Login">
                                     <VBox.margin>
                                         <Insets left="30.0" right="30.0" top="25.0" />
                                     </VBox.margin>
                                 </Button>
-                                <Button fx:id="btnSignUp" mnemonicParsing="false" onAction="#handleGoToRegisterBtn" prefHeight="35.0" prefWidth="320.0" styleClass="button-login" stylesheets="@styles/style2.css" text="Don't have an account?">
+                                <Button fx:id="btnSignUp" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="35.0" prefWidth="320.0" styleClass="button-login" stylesheets="@styles/style2.css" text="Don't have an account?">
                                     <VBox.margin>
                                         <Insets left="30.0" right="30.0" top="25.0" />
                                     </VBox.margin>
                                 </Button>
-                                <Label fx:id="messageLogin" prefHeight="19.0" prefWidth="387.0" textFill="RED">
+                                <Label fx:id="messageLogin" alignment="CENTER" prefHeight="19.0" prefWidth="387.0" text="" textFill="RED">
                                     <font>
                                         <Font size="13.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets left="100.0" right="90.0" top="40.0" />
+                                        <Insets left="20.0" right="20.0" top="40.0" />
                                     </VBox.margin>
                                 </Label>
                             </children>
