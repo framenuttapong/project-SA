@@ -37,7 +37,7 @@ public class CreateEmployeeController {
     @FXML
     public void initialize() {
         alert = new Alert(Alert.AlertType.NONE);
-        System.out.println("initialize RegisterController");
+        System.out.println("initialize CreateEmployeeController");
     }
 
     @FXML

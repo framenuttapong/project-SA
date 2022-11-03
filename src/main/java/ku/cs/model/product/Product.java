@@ -31,12 +31,20 @@ public class Product {
     public Product() {}
 
     public Product(ArrayList<Product> productList) {
+
     }
 
     public Product(int p_ID, String p_Name, String p_Image) {
         this.P_ID = p_ID;
         this.P_Name = p_Name;
         this.P_Image = p_Image;
+    }
+
+    public Product(int p_id, String p_name, int p_price, String p_image) {
+        this.P_ID = p_id;
+        this.P_Name = p_name;
+        this.P_Price = p_price;
+        this.P_Image = p_image;
     }
 
     public int getP_ID() {

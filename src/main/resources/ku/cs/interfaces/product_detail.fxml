@@ -62,24 +62,7 @@
             <children>
                 <Pane prefHeight="200.0" prefWidth="200.0" styleClass="back-white" stylesheets="@styles/style2.css">
                     <children>
-                        <TextField fx:id="showCurrentPassword" layoutX="30.0" layoutY="126.0" prefHeight="40.0" prefWidth="315.0" promptText="Current password" visible="false" />
-                        <TextField fx:id="showNewPassword" layoutX="30.0" layoutY="191.0" prefHeight="40.0" prefWidth="315.0" promptText="New password" visible="false" />
-                        <TextField fx:id="showConfirmNewPassword" layoutX="30.0" layoutY="256.0" prefHeight="40.0" prefWidth="315.0" promptText="Confirm new password" visible="false" />
-                        <Label fx:id="errorCurrentPassword" layoutX="38.0" layoutY="173.0" prefHeight="19.0" textFill="RED">
-                            <font>
-                                <Font size="13.0" />
-                            </font>
-                        </Label>
-                        <Label fx:id="errorNewPassword" layoutX="38.0" layoutY="238.0" prefHeight="19.0" textFill="RED">
-                            <font>
-                                <Font size="13.0" />
-                            </font>
-                        </Label>
-                        <Label fx:id="errorConfirmNewPassword" layoutX="38.0" layoutY="303.0" prefHeight="19.0" textFill="RED">
-                            <font>
-                                <Font size="13.0" />
-                            </font>
-                        </Label>
+                        <Button fx:id="btnPreorder" layoutX="30.0" layoutY="407.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="35.0" prefWidth="315.0" styleClass="button-login" stylesheets="@styles/style2.css" text="Pre-Order" visible="false" />
                         <VBox alignment="CENTER_LEFT" prefHeight="500.0" prefWidth="375.0">
                             <children>
                                 <Label prefHeight="45.0" text="Product Detail">

@@ -51,7 +51,7 @@ public final class FXRouter {
     public static void bind(Object ref, Stage win, String winTitle, double winWidth, double winHeight) {
         checkInstances(ref, win);
         // todo: Undecorated
-        // window.initStyle(StageStyle.UNDECORATED);
+//        window.initStyle(StageStyle.UNDECORATED);
         windowTitle = winTitle;
         windowWidth = winWidth;
         windowHeight = winHeight;
@@ -128,6 +128,13 @@ public final class FXRouter {
         loadNewRoute(route, sceneWidth, sceneHeight);
     }
 
+    public static void goTo(String routeLabel, Object data, Object dataII, double sceneWidth, double sceneHeight) throws IOException {
+        RouteScene route = (RouteScene)routes.get(routeLabel);
+        route.data = data;
+        route.dataII = dataII;
+        loadNewRoute(route, sceneWidth, sceneHeight);
+    }
+
     private static void loadNewRoute(RouteScene route) throws IOException {
         currentRoute = route;
         String scenePath = "/" + route.scenePath;
@@ -197,12 +204,18 @@ public final class FXRouter {
         return currentRoute.data;
     }
 
+    public static Object getDataII() {
+        return currentRoute.dataII;
+    }
+
     private static class RouteScene {
         private String scenePath;
         private String windowTitle;
         private double sceneWidth;
         private double sceneHeight;
         private Object data;
+        //
+        private Object dataII;
 
         private RouteScene(String scenePath) {
             this(scenePath, getWindowTitle(), getWindowWidth(), getWindowHeight());

@@ -26,6 +26,15 @@ public class Order {
         this.Username = username;
     }
 
+    public Order(int OP_ID, int OP_Quantity, int OP_Price, int p_ID, int OP_Status, String username) {
+        this.OP_ID = OP_ID;
+        this.OP_Quantity = OP_Quantity;
+        this.OP_Price = OP_Price;
+        P_ID = p_ID;
+        this.OP_Status = OP_Status;
+        this.Username = username;
+    }
+
     public Order(int OP_ID, int OP_Quantity, int OP_Price, LocalDateTime OP_Date, int OP_Type, int OP_Status) {
         this.OP_ID = OP_ID;
         this.OP_Quantity = OP_Quantity;
@@ -33,6 +42,16 @@ public class Order {
         this.OP_Date = OP_Date;
         this.OP_Type = OP_Type;
         this.OP_Status = OP_Status;
+    }
+
+    public Order(int OP_ID, int OP_Quantity, int OP_Price, int p_ID, int OP_Type, int OP_Status, String username) {
+        this.OP_ID = OP_ID;
+        this.OP_Quantity = OP_Quantity;
+        this.OP_Price = OP_Price;
+        P_ID = p_ID;
+        this.OP_Type = OP_Type;
+        this.OP_Status = OP_Status;
+        Username = username;
     }
 
     public int getOP_ID() {

@@ -18,10 +18,7 @@ import ku.cs.model.product.Product;
 import ku.cs.service.ConnectionClass;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 import static ku.cs.controllers.login.LoginController.ACCOUNT;
@@ -31,12 +28,14 @@ public class MarketController {
     @FXML private Button btn_I;
     @FXML private Button btn_II;
     @FXML private Button btn_III;
+    @FXML private Button btn_IV;
     @FXML private Button btnSignOut;
     @FXML private Circle btnClose;
     @FXML private GridPane gridProduct;
     @FXML private ImageView iconButton_I;
     @FXML private ImageView iconButton_II;
     @FXML private ImageView iconButton_III;
+    @FXML private ImageView iconButton_IV;
     @FXML private Label nameLabel;
     @FXML private Label roleLabel;
     public ArrayList<Product> productList ;
@@ -47,7 +46,6 @@ public class MarketController {
         Alert alert = new Alert(Alert.AlertType.NONE);
         this.productList = queryAllProduct();
 //        ThemeMode.setThemeMode(pane);
-
         showProducts();
         InterfaceManage(ACCOUNT.getRole());
 
@@ -73,6 +71,7 @@ public class MarketController {
                 Product product = new Product(p_id, p_name, p_quantity, p_type, p_price, p_image);
                 productArrayList.add(product);
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -121,11 +120,15 @@ public class MarketController {
             Image icon_addProduct = new Image(getClass().getResource("/ku/cs/icons/add_product.png").toExternalForm());
             iconButton_II.setImage(icon_addProduct);
 
-            btn_III.setVisible(false);
+            btn_III.setText("Check Stock");
+            Image icon_check = new Image(getClass().getResource("/ku/cs/icons/my_store.png").toExternalForm());
+            iconButton_III.setImage(icon_check);
+
+            btn_IV.setText("Preorder All");
         }
 
         // todo: Manager
-        if (role.equals("manager") || role.equals("Manager")) {
+        if (role.equals("Manager")) {
 
             btn_I.setText("Create Employee");
             Image icon_createEmployee = new Image(getClass().getResource("/ku/cs/icons/employee.png").toExternalForm());
@@ -135,30 +138,54 @@ public class MarketController {
             Image icon_addProduct = new Image(getClass().getResource("/ku/cs/icons/add_product.png").toExternalForm());
             iconButton_II.setImage(icon_addProduct);
 
-            btn_III.setVisible(false);
+            btn_III.setText("Check Stock");
+            Image icon_check = new Image(getClass().getResource("/ku/cs/icons/my_store.png").toExternalForm());
+            iconButton_III.setImage(icon_check);
+
+            btn_IV.setText("Preorder All");
         }
 
         // todo: Employee
-        if (role.equals("employee") || role.equals("Employee")) {
+        if (role.equals("Employee")) {
 
-            btn_I.setText("Add Product");
-            Image icon_addProduct = new Image(getClass().getResource("/ku/cs/icons/add_product.png").toExternalForm());
-            iconButton_I.setImage(icon_addProduct);
+            btn_I.setText("Import Stock");
+            Image icon_import = new Image(getClass().getResource("/ku/cs/icons/newOrder.png").toExternalForm());
+            iconButton_I.setImage(icon_import);
 
-            btn_II.setVisible(false);
+            btn_II.setText("Preorder All");
 
             btn_III.setVisible(false);
+            btn_IV.setVisible(false);
         }
 
         // todo: Customer
-        if (role.equals("customer") || role.equals("Customer")) {
+        if (role.equals("Customer")) {
             btn_I.setText("Purchase Orders");
             Image icon_addProduct = new Image(getClass().getResource("/ku/cs/icons/receipt.png").toExternalForm());
             iconButton_I.setImage(icon_addProduct);
 
             btn_II.setVisible(false);
             btn_III.setVisible(false);
+            btn_IV.setVisible(false);
         }
+    }
+
+    private void changeUStatus() {
+
+        ConnectionClass connectionClass= new ConnectionClass();
+        Connection connection =connectionClass.getConnection();
+
+        String userStatus = "UPDATE USER SET U_Status = 0 WHERE Username = '" + ACCOUNT.getUsername() + "';";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(userStatus);
+            statement.executeUpdate();
+        }
+
+        catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
     }
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException {
@@ -178,7 +205,6 @@ public class MarketController {
             if (btn_I.getText().equals("Purchase Orders")) {
                 FXRouter.goTo("purchase_orders", 1000, 600);
             }
-
         }
 
         if (event.getSource() == btn_II) {
@@ -186,10 +212,30 @@ public class MarketController {
             if (btn_II.getText().equals("Add Product")) {
                 FXRouter.goTo("add_product", 750, 500);
             }
+
+            // todo: Preorder
+            if (btn_II.getText().equals("Preorder All")) {
+                FXRouter.goTo("preorder_all", 1000, 600);
+            }
+        }
+
+        if (event.getSource() == btn_III) {
+            // todo: Check Stock
+            if (btn_III.getText().equals("Check Stock")) {
+                FXRouter.goTo("check_stock",1000, 600);
+            }
+        }
+
+        if (event.getSource() == btn_IV) {
+            // todo: All Preorder
+            if (btn_IV.getText().equals("Preorder All")) {
+                FXRouter.goTo("preorder_all", 1000, 600);
+            }
         }
 
         // todo: Sign Out
         if (event.getSource().equals(btnSignOut)) {
+            changeUStatus();
             FXRouter.goTo("login", 750, 500);
         }
 }
@@ -198,6 +244,7 @@ public class MarketController {
 
         // todo: Close Program
         if (event.getSource() == btnClose) {
+            changeUStatus();
             System.exit(0);
         }
     }

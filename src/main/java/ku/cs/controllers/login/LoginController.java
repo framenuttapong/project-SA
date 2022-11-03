@@ -12,10 +12,7 @@ import ku.cs.service.ConnectionClass;
 import ku.cs.service.ThemeMode;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 
 public class LoginController {
@@ -44,12 +41,16 @@ public class LoginController {
         Connection connectDB = connectNow.getConnection();
 
         String verifyLogin = "SELECT count(1) FROM mydb.user WHERE Username = '" + username + "' AND password = '" + password + "'";
+        String userStatus = "UPDATE USER SET U_Status = 1 WHERE Username = '" + username + "';";
         try {
             Statement statement = connectDB.createStatement();
+            PreparedStatement statement1 = connectDB.prepareStatement(userStatus);
+            statement1.executeUpdate();
             ResultSet queryResult = statement.executeQuery(verifyLogin);
 
             while (queryResult.next()) {
                 if (queryResult.getInt(1)==1) {
+//                    changeLoginStatus();
                     queryUser(username);
                     FXRouter.goTo("marketplace", ACCOUNT, 1000, 600);
                 } else {
@@ -94,6 +95,7 @@ public class LoginController {
             throw new RuntimeException(e);
         }
     }
+
 
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException {

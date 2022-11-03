@@ -1,4 +1,4 @@
-package ku.cs.controllers.market;
+package ku.cs.controllers.product;
 
 import animatefx.animation.SlideInUp;
 import fxrouter.FXRouter;
@@ -15,8 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
-import ku.cs.controllers.product.OrderProductController;
-import ku.cs.controllers.product.ProductController;
 import ku.cs.model.product.Order;
 import ku.cs.model.product.Product;
 import ku.cs.service.ConnectionClass;
@@ -30,7 +28,8 @@ import java.util.ArrayList;
 
 import static ku.cs.controllers.login.LoginController.ACCOUNT;
 
-public class PurchaseOrdersController {
+public class PreorderAllController {
+
     @FXML private Button btn_I;
     @FXML private Button btn_II;
     @FXML private Button btn_III;
@@ -50,23 +49,23 @@ public class PurchaseOrdersController {
 
         Alert alert = new Alert(Alert.AlertType.NONE);
 
-        this.orderList = queryOrderProducts();
-        this.productList = getProductByOP_ID();
+        this.orderList = queryPreorderProducts();
+        this.productList = getProductPreorder();
 
 
-        showOrderProducts();
+        showPreorderProducts();
         InterfaceManage();
-        System.out.println("initialize PurchaseOrdersController");
+        System.out.println("initialize PreorderAllController");
     }
 
-    private ArrayList<Order> queryOrderProducts(){
+    private ArrayList<Order> queryPreorderProducts(){
         ArrayList<Order> orderArrayList = new ArrayList<Order>();
         ConnectionClass connectionClass= new ConnectionClass();
         Connection connectDB =connectionClass.getConnection();
-        String orderSQL = "SELECT OP_ID,OP_Quantity,OP_Price,P_ID,OP_Type,OP_Status,Username FROM ORDER_PRODUCT;";
+        String preorder = "SELECT OP_ID,OP_Quantity,OP_Price,P_ID,OP_Type,OP_Status,Username FROM ORDER_PRODUCT WHERE OP_Type = '" + 2 + "'";
         try {
             Statement statement = connectDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(orderSQL);
+            ResultSet queryResult = statement.executeQuery(preorder);
 
             while (queryResult.next()) {
                 int op_id = Integer.parseInt(queryResult.getString(1));
@@ -75,8 +74,8 @@ public class PurchaseOrdersController {
                 int p_id = Integer.parseInt(queryResult.getString(4));
                 int op_type = Integer.parseInt(queryResult.getString(5));
                 int op_status = Integer.parseInt(queryResult.getString(6));
-                String username = queryResult.getString(7);
-                Order orderProduct = new Order(op_id, op_quantity, op_price, p_id, op_type,op_status,username);
+                String username = queryResult.getString(6);
+                Order orderProduct = new Order(op_id, op_quantity, op_price, p_id, op_type, op_status, username);
                 orderArrayList.add(orderProduct);
             }
         } catch (SQLException e) {
@@ -85,21 +84,19 @@ public class PurchaseOrdersController {
         return orderArrayList;
     }
 
-    private void showOrderProducts() {
+    private void showPreorderProducts() {
         gridProduct.getChildren().clear();
         int column = 0;
         int row = 0;
         try {
             for (Order order : orderList) {
                 for (Product product : productList) {
-                    if(order.getP_ID() == product.getP_ID() && order.getOP_Status() == 0
-                            && ACCOUNT.getUsername().equals(order.getUsername())
-                            && (order.getOP_Type() == 0 || order.getOP_Type() == 1)) {
+                    if(order.getP_ID() == product.getP_ID()){
                         FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("/ku/cs/interfaces/order_product.fxml"));
+                        fxmlLoader.setLocation(getClass().getResource("/ku/cs/interfaces/product_preorder.fxml"));
                         AnchorPane anchorPane = fxmlLoader.load();
-                        OrderProductController orderProductController = fxmlLoader.getController();
-                        orderProductController.setData(order, product);
+                        ProductPreorderController productPreorderController = fxmlLoader.getController();
+                        productPreorderController.setData(order, product);
                         if (column == 3) {
                             column = 0;
                             row++;
@@ -115,7 +112,7 @@ public class PurchaseOrdersController {
         new SlideInUp(gridProduct).play();
     }
 
-    private ArrayList<Product> getProductByOP_ID(){
+    private ArrayList<Product> getProductPreorder(){
         ArrayList<Product> productArrayList = new ArrayList<Product>();
         ConnectionClass connectionClass= new ConnectionClass();
         Connection connectDB =connectionClass.getConnection();

@@ -29,15 +29,22 @@ public class App extends Application {
     private static void configRoute() {
         String packageStr = "ku/cs/interfaces/";
         FXRouter.when("add_product", packageStr+ "add_product.fxml");
+        FXRouter.when("approve_preorder", packageStr+ "approve_preorder.fxml");
+        FXRouter.when("check_stock", packageStr+ "check_stock.fxml");
         FXRouter.when("create_employee", packageStr+ "create_employee.fxml");
         FXRouter.when("create_promotion",packageStr+ "create_promotion.fxml");
         FXRouter.when("create_user", packageStr+ "create_user.fxml");
+        FXRouter.when("import_stock", packageStr+ "import_stock.fxml");
         FXRouter.when("login", packageStr+ "login.fxml");
         FXRouter.when("marketplace", packageStr+ "market.fxml");
         FXRouter.when("order_product", packageStr+ "order_product.fxml");
+        FXRouter.when("pay", packageStr+ "pay.fxml");
+        FXRouter.when("preorder", packageStr+ "preorder.fxml");
+        FXRouter.when("preorder_all", packageStr+ "preorder_all.fxml");
         FXRouter.when("product", packageStr+ "product.fxml");
         FXRouter.when("product_detail", packageStr+ "product_detail.fxml");
         FXRouter.when("purchase_orders",packageStr+ "purchase_orders.fxml");
+        FXRouter.when("product_check_stock", packageStr+ "product_check_stock.fxml");
         FXRouter.when("register", packageStr+ "register.fxml");
     }
 
