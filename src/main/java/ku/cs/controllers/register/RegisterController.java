@@ -120,7 +120,7 @@ public class RegisterController {
         ConnectionClass connectNow = new ConnectionClass();
         Connection connectDB = connectNow.getConnection();
 
-        String verifyUsername = "SELECT count(1) FROM mydb.user WHERE Username = '" + username + "'";
+        String verifyUsername = "SELECT count(1) FROM USER WHERE Username = '" + username + "'";
         try {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(verifyUsername);

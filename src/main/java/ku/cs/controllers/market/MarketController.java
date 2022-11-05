@@ -19,7 +19,9 @@ import ku.cs.service.ConnectionClass;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static ku.cs.controllers.login.LoginController.ACCOUNT;
 
@@ -48,10 +50,16 @@ public class MarketController {
 //        ThemeMode.setThemeMode(pane);
         showProducts();
         InterfaceManage(ACCOUNT.getRole());
-
+        showDate();
         System.out.println("initialize MarketController");
     }
 
+    private void showDate(){
+        LocalDate currentDate = LocalDate.now();
+        LocalDate exp = LocalDate.of(2022,12,3);
+        if (exp.isAfter(currentDate) && exp.isBefore(currentDate.plusMonths(1))){
+        }
+    }
     private ArrayList<Product> queryAllProduct(){
         ArrayList<Product> productArrayList = new ArrayList<Product>();
         ConnectionClass connectionClass= new ConnectionClass();
@@ -222,7 +230,7 @@ public class MarketController {
         if (event.getSource() == btn_III) {
             // todo: Check Stock
             if (btn_III.getText().equals("Check Stock")) {
-                FXRouter.goTo("check_stock",1000, 600);
+                FXRouter.goTo("check_lot",1000, 600);
             }
         }
 

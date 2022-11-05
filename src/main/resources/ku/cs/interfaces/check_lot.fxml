@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -15,7 +16,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controllers.manager.CheckStockController">
+<BorderPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controllers.manager.CheckLotController">
     <left>
         <Pane prefHeight="600.0" prefWidth="240.0" styleClass="linear-gradient" stylesheets="@styles/style2.css" BorderPane.alignment="CENTER">
             <children>
@@ -118,11 +119,20 @@
             <children>
                 <VBox prefHeight="550.0" prefWidth="760.0">
                     <children>
-                        <HBox prefHeight="550.0" prefWidth="760.0">
+                        <HBox alignment="CENTER_RIGHT" prefWidth="200.0">
+                            <children>
+                                <ComboBox fx:id="selectComboBox" onAction="#selectCheckProduct" prefWidth="120.0">
+                                    <HBox.margin>
+                                        <Insets right="30.0" />
+                                    </HBox.margin>
+                                </ComboBox>
+                            </children>
+                        </HBox>
+                        <HBox>
                             <children>
                                 <ScrollPane prefHeight="550.0" prefWidth="760.0">
                                     <content>
-                                        <GridPane fx:id="gridProduct" prefHeight="549.0" prefWidth="743.0" styleClass="back-white" stylesheets="@styles/style2.css">
+                                        <GridPane fx:id="gridProduct" minHeight="523.0" prefWidth="741.0" styleClass="back-white" stylesheets="@styles/style2.css">
                                             <columnConstraints>
                                                 <ColumnConstraints />
                                             </columnConstraints>

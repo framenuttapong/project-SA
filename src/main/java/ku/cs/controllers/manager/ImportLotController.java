@@ -139,7 +139,6 @@ public class ImportLotController {
 
     private void queryImportStock() throws SQLException {
         LocalDate now = LocalDate.now();
-//            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
         String l_quantity = addQuantityTextField.getText();
         for (Product product : productList) {
             if (product.getP_Name().equals(currentProduct)) {
@@ -200,9 +199,9 @@ public class ImportLotController {
                 queryImportStock();
                 updateQuantity();
                 try {
-                    FXRouter.goTo("check_stock", 1000, 600);
+                    FXRouter.goTo("check_lot", 1000, 600);
                 } catch (IOException e) {
-                    System.err.println("ไปที่หน้า check_stock ไม่ได้");
+                    System.err.println("ไปที่หน้า check_lot ไม่ได้");
                     System.err.println("ให้ตรวจสอบการกำหนด route");
                 }
             }
@@ -220,7 +219,7 @@ public class ImportLotController {
         // todo: Button Back
         if (event.getSource() == btnBack) {
             try {
-                FXRouter.goTo("check_stock", 1000, 600);
+                FXRouter.goTo("check_lot", 1000, 600);
             } catch (IOException e) {
                 System.err.println("กลับไปที่หน้า check_stock ไม่ได้");
                 System.err.println("ให้ตรวจสอบการกำหนด route");

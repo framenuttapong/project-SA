@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderEditProduct" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controllers.PromotionController">
+<BorderPane fx:id="borderEditProduct" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controllers.manager.CreatePromotionController">
     <left>
         <Pane prefHeight="500.0" prefWidth="375.0" styleClass="linear-gradient" stylesheets="@styles/style2.css" BorderPane.alignment="CENTER">
             <children>

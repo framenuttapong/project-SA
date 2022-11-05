@@ -10,43 +10,67 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import ku.cs.model.product.Lot;
 import ku.cs.model.product.Product;
 import ku.cs.service.ConnectionClass;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import static ku.cs.controllers.login.LoginController.ACCOUNT;
 
 public class ProductDetailController {
 
-    @FXML private Button btnBuy;
-    @FXML private Button btnPreorder;
-    @FXML private Circle btnClose;
-    @FXML private Circle productPicture;
-    @FXML private ImageView btnBack;
-    @FXML private Label NameLabel;
-    @FXML private TextField nameLabel;
-    @FXML private TextField priceLabel;
-    @FXML private TextField quantityLabel;
-    @FXML private TextField quantityTextField;
-    @FXML private TextField productTypeLabel;
+    @FXML
+    private Button btnBuy;
+    @FXML
+    private Button btnPreorder;
+    @FXML
+    private Circle btnClose;
+    @FXML
+    private Circle productPicture;
+    @FXML
+    private ImageView btnBack;
+    @FXML
+    private Label NameLabel;
+    @FXML
+    private TextField nameLabel;
+    @FXML
+    private TextField priceLabel;
+    @FXML
+    private TextField quantityLabel;
+    @FXML
+    private TextField quantityTextField;
+    @FXML
+    private TextField productTypeLabel;
 
     private Product product = (Product) FXRouter.getData();
 
-
+    ArrayList<Lot> lotList;
+    private Lot lots;
     private Alert alert;
+
     @FXML
     public void initialize() {
         alert = new Alert(Alert.AlertType.NONE);
+        this.lots = queryLotProduct();
         this.product = queryProduct();
+        this.lotList = queryLot();
+        showList();
         showProductDetail();
         System.out.println("initialize ProductDetailController");
     }
 
+    public void showList(){
+        for (Lot lot : lotList){
+            System.out.println(lot.getL_ID()+ "  " +lot.getL_Quantity());
+        }
+    }
     public void showProductDetail() {
         NameLabel.setText(product.getP_Name());
         nameLabel.setText(product.getP_Name());
@@ -59,15 +83,15 @@ public class ProductDetailController {
         quantityLabel.setEditable(false);
         productTypeLabel.setText(product.getP_Type());
         productTypeLabel.setEditable(false);
-        File f = new File("images/"+product.getP_Image());
+        File f = new File("images/" + product.getP_Image());
         productPicture.setFill(new ImagePattern(new Image("file:///" + f.getAbsolutePath())));
     }
 
-    private Product queryProduct(){
+    private Product queryProduct() {
         ConnectionClass connectNow = new ConnectionClass();
         Connection connectDB = connectNow.getConnection();
 
-        String products = "SELECT * FROM mydb.product WHERE P_ID = '" + product.getP_ID() + "';";
+        String products = "SELECT * FROM PRODUCT WHERE P_ID = '" + product.getP_ID() + "';";
         try {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(products);
@@ -89,8 +113,33 @@ public class ProductDetailController {
         return null;
     }
 
-    public boolean checkQuantity(int amount){
-        if (amount > this.product.getP_Quantity()){
+    private Lot queryLotProduct() {
+        ConnectionClass connectNow = new ConnectionClass();
+        Connection connectDB = connectNow.getConnection();
+
+        String lots = "SELECT * FROM LOT WHERE P_ID = '" + product.getP_ID() + "';";
+        try {
+            Statement statement = connectDB.createStatement();
+            ResultSet queryResult = statement.executeQuery(lots);
+
+
+            while (queryResult.next()) {
+                int l_id = Integer.parseInt(queryResult.getString(1));
+                LocalDate l_date = LocalDate.parse(queryResult.getString(2));
+                int p_id = Integer.parseInt(queryResult.getString(3));
+                LocalDate l_exp = LocalDate.parse(queryResult.getString(4));
+                int l_quantity = Integer.parseInt(queryResult.getString(5));
+                Lot lot = new Lot(l_id, l_date, p_id, l_exp, l_quantity);
+                return lot;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public boolean checkQuantity(int amount) {
+        if (amount > this.product.getP_Quantity()) {
             alert.setAlertType(Alert.AlertType.WARNING);
             alert.setContentText("สินค้าไม่เพียงพอ");
             alert.show();
@@ -102,8 +151,8 @@ public class ProductDetailController {
         return true;
     }
 
-    public int totalPrice(int amount){
-        return this.product.getP_Price()*amount;
+    public int totalPrice(int amount) {
+        return this.product.getP_Price() * amount;
     }
 
     private void queryOrder() throws SQLException {
@@ -123,32 +172,116 @@ public class ProductDetailController {
 
 
     public boolean isValidQuantity(String quantity) {
-        return ((quantity!= null)
+        return ((quantity != null)
                 && (!quantity.equals(""))
                 && (quantity.matches("^[0-9]{1,5}$")));
     }
 
-    private void cutStock(int quantity,int op_quantity){
+    // ต้องตัด lot แทน
+    private void cutStock(int quantity, int op_quantity) {
         ConnectionClass connectNow = new ConnectionClass();
         Connection connectDB = connectNow.getConnection();
-
-        String updateQuantity = "UPDATE PRODUCT SET P_Quantity = '" + quantity + "'-'" + op_quantity + "' WHERE P_ID = '"
+        String updateProductQuantity = "UPDATE PRODUCT SET P_Quantity = '" + quantity + "'-'" + op_quantity + "' WHERE P_ID = '"
                 + product.getP_ID() + "';";
         try {
-            PreparedStatement statement = connectDB.prepareStatement(updateQuantity);
-            statement.executeUpdate();
-            System.out.println("cut stock complete!!!");
+
+                for (Lot lot : lotList) {
+                    if (lot.getL_Status() == 0) {
+                        for (int i = 0; i < op_quantity; i++) {
+                            String updateLotQuantity = "UPDATE LOT SET L_Quantity = '" + lots.getL_Quantity() + "'-'" + i + "' WHERE L_ID = '"
+                                    + lot.getL_ID() + "' AND P_ID = '" + lot.getP_ID() + "'";
+                            PreparedStatement statement2 = connectDB.prepareStatement(updateLotQuantity);
+                            statement2.executeUpdate();
+                        }
+                        if (lot.getL_Quantity() == 0) {
+                            String updateLotStatus = "UPDATE LOT SET L_Status = 1 WHERE L_ID = '" + lot.getL_ID() + "';";
+                            PreparedStatement statement = connectDB.prepareStatement(updateLotStatus);
+                            statement.executeUpdate();
+                        }
+                    }
+                }
+
+
+                PreparedStatement statement1 = connectDB.prepareStatement(updateProductQuantity);
+//                PreparedStatement statement2 = connectDB.prepareStatement(updateLotQuantity);
+                statement1.executeUpdate();
+//                statement2.executeUpdate();
+                System.out.println("cut stock complete!!!");
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+//            if (lot.getP_ID() == product.getP_ID() && op_quantity > lot.getL_Quantity()) {
+//                int temp = lot.getL_Quantity()-(op_quantity-lot.getL_Quantity()+(op_quantity-lot.getL_Quantity()));
+//                if (temp == 0)[
+//                        lot.getL
+//            String updateLotQuantity = "UPDATE LOT SET L_Quantity = '" + lot.getL_Quantity() + "'-'" + op_quantity + "' WHERE L_ID = '"
+//                    + lot.getL_ID() + "' AND P_ID = '" + lot.getP_ID() + "'";
+//        String updateLotQuantity = "UPDATE LOT SET L_Quantity = '" + lot.getL_Quantity() + "'-'" + 1 + "' WHERE L_ID = '"
+//                + lot.getL_ID() + "' AND P_ID = '" + lot.getP_ID() + "' AND L_Quantity > 0 ";
+//        String updateProductQuantity = "UPDATE PRODUCT SET P_Quantity = '" + quantity + "'-'" + op_quantity + "' WHERE P_ID = '"
+//                + product.getP_ID() + "';";
+
+//        try {
+//            for (int i = 0; i < op_quantity; i++) {
+//                String updateLotQuantity = "UPDATE LOT SET L_Quantity = '" + lot.getL_Quantity() + "'-'" + i + "' WHERE L_ID = '"
+//                        + lot.getL_ID() + "' AND P_ID = '" + lot.getP_ID() + "' AND L_Quantity > 0 ";
+//                if(lot.getL_Quantity() == 0 && lot.getP_ID() == product.getP_ID()){
+//                    String updateLotStatus = "UPDATE LOT SET L_Status = 1 WHERE L_ID = '" + lot.getL_ID() + "';";
+//                    PreparedStatement statement = connectDB.prepareStatement(updateLotStatus);
+//                    statement.executeUpdate();
+//                }
+//                PreparedStatement statement2 = connectDB.prepareStatement(updateLotQuantity);
+//                statement2.executeUpdate();
+//            }
+//                PreparedStatement statement1 = connectDB.prepareStatement(updateProductQuantity);
+////                PreparedStatement statement2 = connectDB.prepareStatement(updateLotQuantity);
+//                statement1.executeUpdate();
+////                statement2.executeUpdate();
+//                System.out.println("cut stock complete!!!");
+//            }
+//
+////                    System.out.println("cut stock complete!!!");
+//        catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
 
     private void confirmCutStock(){
         int quantity = product.getP_Quantity();
         int op_quantity = Integer.parseInt(quantityTextField.getText());
         System.out.println("product : " + quantity
                 + " order : " + op_quantity);
-        cutStock(quantity,op_quantity);
+        cutStock(quantity, op_quantity);
+    }
+
+    public ArrayList<Lot> queryLot() {
+        ArrayList<Lot> lotArrayList = new ArrayList<Lot>();
+        ConnectionClass connectionClass = new ConnectionClass();
+        Connection connectDB = connectionClass.getConnection();
+        String sql = "SELECT * FROM LOT WHERE P_ID = '" + product.getP_ID() + "';";
+        try {
+            Statement statement = connectDB.createStatement();
+            ResultSet queryResult = statement.executeQuery(sql);
+
+            while (queryResult.next()) {
+                int l_id = Integer.parseInt(queryResult.getString(1));
+                LocalDate l_date = LocalDate.parse(queryResult.getString(2));
+                int p_id = Integer.parseInt(queryResult.getString(3));
+                LocalDate l_exp = LocalDate.parse(queryResult.getString(4));
+                int l_quantity = Integer.parseInt(queryResult.getString(5));
+                int l_status = Integer.parseInt(queryResult.getString(6));
+                Lot lot = new Lot(l_id, l_date, p_id, l_exp, l_quantity, l_status);
+                lotArrayList.add(lot);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return lotArrayList;
     }
 
     @FXML
