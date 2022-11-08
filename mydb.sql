@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2022 at 06:20 AM
+-- Generation Time: Nov 08, 2022 at 07:25 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -32,9 +32,22 @@ CREATE TABLE `lot` (
   `L_Date` date NOT NULL,
   `P_ID` int(1) NOT NULL,
   `L_Exp` date NOT NULL,
-  `L_Quantity` int(5) NOT NULL,
-  `L_Status` int(1) NOT NULL DEFAULT 0
+  `L_Quantity` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `lot`
+--
+
+INSERT INTO `lot` (`L_ID`, `L_Date`, `P_ID`, `L_Exp`, `L_Quantity`) VALUES
+(1, '2022-11-08', 1, '2023-03-01', 4500),
+(2, '2022-11-08', 2, '2023-11-07', 4500),
+(3, '2022-11-08', 3, '2022-11-30', 50),
+(4, '2022-11-08', 4, '2022-12-10', 100),
+(5, '2022-11-08', 5, '2023-01-10', 12),
+(6, '2022-11-08', 6, '2023-02-09', 9000),
+(7, '2022-11-08', 7, '2023-03-22', 98000),
+(8, '2022-11-08', 8, '2023-12-09', 798);
 
 -- --------------------------------------------------------
 
@@ -52,6 +65,18 @@ CREATE TABLE `order_product` (
   `OP_Status` int(1) NOT NULL DEFAULT 0,
   `Username` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `order_product`
+--
+
+INSERT INTO `order_product` (`OP_ID`, `OP_Quantity`, `OP_Price`, `P_ID`, `OP_Date`, `OP_Type`, `OP_Status`, `Username`) VALUES
+(1, 5000, 1250000, 1, '2022-11-08 05:19:58', 0, 1, '2'),
+(2, 1000, 120000, 8, '2022-11-08 05:38:20', 1, 0, '2'),
+(3, 500, 125000, 1, '2022-11-08 08:25:18', 0, 0, 'customer'),
+(4, 500, 10000, 5, '2022-11-08 08:25:33', 2, 0, 'customer'),
+(5, 100, 3000, 4, '2022-11-08 08:25:45', 0, 0, 'customer'),
+(6, 500, 140000, 2, '2022-11-08 11:37:33', 0, 0, '2');
 
 -- --------------------------------------------------------
 
@@ -73,14 +98,15 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`P_ID`, `P_Name`, `P_Quantity`, `P_Type`, `P_Price`, `P_Image`) VALUES
-(1, 'Black pepper', 0, 'spices', 250, 'picture-2022-11-01-22-15-16.png'),
-(2, 'Cinnamon', 0, 'spices', 280, 'picture-2022-11-01-22-21-12.png'),
-(3, 'Ginger', 0, 'spices', 25, 'picture-2022-11-01-22-24-05.png'),
-(4, 'Galangal', 0, 'spices', 30, 'picture-2022-11-01-22-24-41.png'),
-(5, 'Cymbopogon', 0, 'spices', 20, 'picture-2022-11-01-22-26-54.png'),
-(6, 'Kaffir lime', 0, 'vegetables', 50, 'picture-2022-11-01-22-27-22.png'),
-(7, 'Chili pepper', 0, 'spices', 60, 'picture-2022-11-01-22-27-56.png'),
-(8, 'Shallot', 0, 'spices', 120, 'picture-2022-11-01-22-28-16.png');
+(1, 'Black pepper', 4500, 'spices', 250, 'picture-2022-11-01-22-15-16.png'),
+(2, 'Cinnamon', 4500, 'spices', 280, 'picture-2022-11-01-22-21-12.png'),
+(3, 'Ginger', 50, 'spices', 25, 'picture-2022-11-01-22-24-05.png'),
+(4, 'Galangal', 100, 'spices', 30, 'picture-2022-11-01-22-24-41.png'),
+(5, 'Cymbopogon', 12, 'spices', 20, 'picture-2022-11-01-22-26-54.png'),
+(6, 'Kaffir lime', 9000, 'vegetables', 50, 'picture-2022-11-01-22-27-22.png'),
+(7, 'Chili pepper', 98000, 'spices', 60, 'picture-2022-11-01-22-27-56.png'),
+(8, 'Shallot', 798, 'spices', 120, 'picture-2022-11-01-22-28-16.png'),
+(9, 'Shallot', 0, 'fruits', 120, 'picture-2022-11-08-12-45-39.png');
 
 -- --------------------------------------------------------
 
@@ -96,6 +122,13 @@ CREATE TABLE `promotion` (
   `StartDate` date NOT NULL,
   `EndDate` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `promotion`
+--
+
+INSERT INTO `promotion` (`PM_ID`, `PM_Name`, `PM_Description`, `P_ID`, `StartDate`, `EndDate`) VALUES
+(1, 'sale now!!', 'sale 50%', 1, '2022-11-09', '2022-11-16');
 
 -- --------------------------------------------------------
 
@@ -122,9 +155,9 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`Username`, `Password`, `U_Name`, `Email`, `Phone`, `Address`, `Role`, `Postcode`, `U_Status`) VALUES
 ('0', '0', 'Administrator', '-', '-', '-', 'Admin', '-', 0),
 ('1', '1', 'Manager', '-', '-', '-', 'Manager', '-', 1),
-('2', '2', 'Customer', '-', '-', '-', 'Customer', '-', 1),
+('2', '2', 'Customer', '-', '-', '-', 'Customer', '-', 0),
 ('4', '4', 'Employee', '-', '-', '-', 'Employee', '-', 0),
-('Nobita000', '123456789', 'Doraemon', 'asdasdasdaasd', '0987654321', '1231213564', 'Manager', '10222', 0);
+('customer', 'customer123', 'Doramon Nobita', 'customer@ku.th', '0812345678', '123 ถนนพหลโยธิน แขวงคลองถนน เขตสายไหม กรุงเทพ', 'Customer', '10220', 1);
 
 --
 -- Indexes for dumped tables
@@ -172,25 +205,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `lot`
 --
 ALTER TABLE `lot`
-  MODIFY `L_ID` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `L_ID` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `order_product`
 --
 ALTER TABLE `order_product`
-  MODIFY `OP_ID` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `OP_ID` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `P_ID` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `P_ID` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `promotion`
 --
 ALTER TABLE `promotion`
-  MODIFY `PM_ID` int(1) NOT NULL AUTO_INCREMENT;
+  MODIFY `PM_ID` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

@@ -31,6 +31,7 @@ public class MarketController {
     @FXML private Button btn_II;
     @FXML private Button btn_III;
     @FXML private Button btn_IV;
+    @FXML private Button btn_V;
     @FXML private Button btnSignOut;
     @FXML private Circle btnClose;
     @FXML private GridPane gridProduct;
@@ -38,6 +39,7 @@ public class MarketController {
     @FXML private ImageView iconButton_II;
     @FXML private ImageView iconButton_III;
     @FXML private ImageView iconButton_IV;
+    @FXML private ImageView iconButton_V;
     @FXML private Label nameLabel;
     @FXML private Label roleLabel;
     public ArrayList<Product> productList ;
@@ -133,6 +135,12 @@ public class MarketController {
             iconButton_III.setImage(icon_check);
 
             btn_IV.setText("Preorder All");
+            Image icon_preorder = new Image(getClass().getResource("/ku/cs/icons/receipt.png").toExternalForm());
+            iconButton_IV.setImage(icon_preorder);
+
+            btn_V.setText("Report");
+            Image icon_report = new Image(getClass().getResource("/ku/cs/icons/reported.png").toExternalForm());
+            iconButton_V.setImage(icon_report);
         }
 
         // todo: Manager
@@ -150,31 +158,39 @@ public class MarketController {
             Image icon_check = new Image(getClass().getResource("/ku/cs/icons/my_store.png").toExternalForm());
             iconButton_III.setImage(icon_check);
 
-            btn_IV.setText("Preorder All");
+            btn_IV.setText("Approve Preorder");
+            Image icon_preorder = new Image(getClass().getResource("/ku/cs/icons/receipt.png").toExternalForm());
+            iconButton_IV.setImage(icon_preorder);
+
+            btn_V.setText("Report");
+            Image icon_report = new Image(getClass().getResource("/ku/cs/icons/reported.png").toExternalForm());
+            iconButton_V.setImage(icon_report);
         }
 
         // todo: Employee
         if (role.equals("Employee")) {
 
-            btn_I.setText("Import Stock");
-            Image icon_import = new Image(getClass().getResource("/ku/cs/icons/newOrder.png").toExternalForm());
-            iconButton_I.setImage(icon_import);
+            btn_I.setText("Check Stock");
+            Image icon_check = new Image(getClass().getResource("/ku/cs/icons/my_store.png").toExternalForm());
+            iconButton_I.setImage(icon_check);
 
-            btn_II.setText("Preorder All");
+            btn_II.setVisible(false);
 
             btn_III.setVisible(false);
             btn_IV.setVisible(false);
+            btn_V.setVisible(false);
         }
 
         // todo: Customer
         if (role.equals("Customer")) {
             btn_I.setText("Purchase Orders");
-            Image icon_addProduct = new Image(getClass().getResource("/ku/cs/icons/receipt.png").toExternalForm());
+            Image icon_addProduct = new Image(getClass().getResource("/ku/cs/icons/buy.png").toExternalForm());
             iconButton_I.setImage(icon_addProduct);
 
             btn_II.setVisible(false);
             btn_III.setVisible(false);
             btn_IV.setVisible(false);
+            btn_V.setVisible(false);
         }
     }
 
@@ -213,6 +229,10 @@ public class MarketController {
             if (btn_I.getText().equals("Purchase Orders")) {
                 FXRouter.goTo("purchase_orders", 1000, 600);
             }
+            // todo: Check Stock
+            if (btn_I.getText().equals("Check Stock")) {
+                FXRouter.goTo("check_lot",1000, 600);
+            }
         }
 
         if (event.getSource() == btn_II) {
@@ -221,8 +241,8 @@ public class MarketController {
                 FXRouter.goTo("add_product", 750, 500);
             }
 
-            // todo: Preorder
-            if (btn_II.getText().equals("Preorder All")) {
+            // todo: Approve Preorder
+            if (btn_II.getText().equals("Approve Preorder")) {
                 FXRouter.goTo("preorder_all", 1000, 600);
             }
         }
@@ -235,9 +255,16 @@ public class MarketController {
         }
 
         if (event.getSource() == btn_IV) {
-            // todo: All Preorder
-            if (btn_IV.getText().equals("Preorder All")) {
+            // todo: Approve Preorder
+            if (btn_IV.getText().equals("Approve Preorder")) {
                 FXRouter.goTo("preorder_all", 1000, 600);
+            }
+        }
+
+        if (event.getSource() == btn_V) {
+            // todo: Report
+            if (btn_V.getText().equals("Report")) {
+                FXRouter.goTo("report", 1000, 600);
             }
         }
 

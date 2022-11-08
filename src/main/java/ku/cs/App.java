@@ -21,7 +21,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         Image icon = new Image(getClass().getResource("/ku/cs/icons/moon.png").toExternalForm());
         stage.getIcons().add(icon);
-        FXRouter.bind(this, stage, "SA Shop", 750, 500);
+        FXRouter.bind(this, stage, "โชคชัยพัฒนา", 750, 500);
         configRoute();
         FXRouter.goTo("login");
     }
@@ -48,6 +48,7 @@ public class App extends Application {
         FXRouter.when("product_preorder", packageStr+ "product_preorder");
         FXRouter.when("purchase_orders",packageStr+ "purchase_orders.fxml");
         FXRouter.when("register", packageStr+ "register.fxml");
+        FXRouter.when("report", packageStr+ "report.fxml");
     }
 
     static void setRoot(String fxml) throws IOException {

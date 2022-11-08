@@ -50,7 +50,7 @@ public class ProductController {
         if (event.getSource() == productPicture) {
             if (LoginController.ACCOUNT.getRole().equals("Customer")) {
                 try {
-                    FXRouter.goTo("product_detail",product ,750, 500);
+                    FXRouter.goTo("product_detail", product,750, 500);
                 } catch (IOException e) {
                     System.err.println("ไปที่หน้า product_detail ไม่ได้");
                     System.err.println("ให้ตรวจสอบการกำหนด route");

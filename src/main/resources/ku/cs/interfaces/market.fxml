@@ -99,6 +99,20 @@
                                 </Button>
                             </children>
                         </HBox>
+                        <HBox layoutX="10.0" layoutY="215.0" prefHeight="40.0" prefWidth="240.0">
+                            <children>
+                                <ImageView fx:id="iconButton_V" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" left="30.0" top="5.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                                <Button fx:id="btn_V" onAction="#handleButtonAction" prefHeight="30.0" styleClass="button-menu" stylesheets="@styles/style2.css" text="Button 5">
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" right="10.0" top="5.0" />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                        </HBox>
                         <HBox layoutX="10.0" layoutY="370.0" prefHeight="40.0" prefWidth="240.0">
                             <children>
                                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -116,7 +130,7 @@
                                 </Button>
                             </children>
                             <VBox.margin>
-                                <Insets top="290.0" />
+                                <Insets top="250.0" />
                             </VBox.margin>
                         </HBox>
                     </children>

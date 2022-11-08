@@ -46,23 +46,24 @@ public class PayController {
 
     private Order order = (Order) FXRouter.getData();
     private Product product = (Product) FXRouter.getDataII();
+    public Alert alert;
     @FXML public void initialize() {
 
-        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert = new Alert(Alert.AlertType.NONE);
         showOrderDetail();
         System.out.println("initialize PayController");
     }
 
     public void showOrderDetail() {
-            NameLabel.setText(product.getP_Name());
-            nameLabel.setText(product.getP_Name());
-            nameLabel.setEditable(false);
+        NameLabel.setText(product.getP_Name());
+        nameLabel.setText(product.getP_Name());
+        nameLabel.setEditable(false);
 
-            priceLabel.setText(product.getP_Price() + " ฿/kg.");
-            priceLabel.setEditable(false);
+        priceLabel.setText(product.getP_Price() + " ฿/kg.");
+        priceLabel.setEditable(false);
 
-            File f = new File("images/" + product.getP_Image());
-            productPicture.setFill(new ImagePattern(new Image("file:///" + f.getAbsolutePath())));
+        File f = new File("images/" + product.getP_Image());
+        productPicture.setFill(new ImagePattern(new Image("file:///" + f.getAbsolutePath())));
 
         quantityLabel.setText(order.getOP_Quantity() + " kg.");
         quantityLabel.setEditable(false);
@@ -106,6 +107,9 @@ public class PayController {
         // todo: Button Pay
         if (event.getSource() == btnPay) {
             changeOPStatus();
+            alert.setAlertType(Alert.AlertType.WARNING);
+            alert.setContentText("ชำระเงินสำเร็จ");
+            alert.show();
             FXRouter.goTo("purchase_orders", 1000, 600);
         }
     }

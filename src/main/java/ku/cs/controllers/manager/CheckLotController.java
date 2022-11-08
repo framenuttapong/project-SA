@@ -31,6 +31,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import static ku.cs.controllers.login.LoginController.ACCOUNT;
 
@@ -49,7 +50,7 @@ public class CheckLotController {
     @FXML private Label nameLabel;
     @FXML private Label roleLabel;
 
-    public ArrayList<Order> orderList ;
+    public ArrayList<Order> orderList;
 
     private ArrayList<Product> productList;
     private ArrayList<Product> productList2;
@@ -65,11 +66,14 @@ public class CheckLotController {
                 "Low Quantity",
                 "Expiration"
         );
+        selectComboBox.getSelectionModel().selectFirst();
+        showProductsLessThan100();
         InterfaceManage();
         System.out.println("initialize CheckStockController");
     }
 
     public void selectCheckProduct(ActionEvent actionEvent) {
+
         if(selectComboBox.getValue().equals("Low Quantity")) {
             showProductsLessThan100();
         }
@@ -86,7 +90,7 @@ public class CheckLotController {
         try {
             for (Product product : productList2) {
                 for (Lot lot : lotList){
-                    if(lot.getL_Exp().isAfter(lot.getL_Date()) && lot.getL_Exp().isBefore(lot.getL_Date().plusMonths(1)) && lot.getP_ID() == product.getP_ID()) {
+                    if(lot.getL_Exp().isAfter(lot.getL_Date()) && lot.getL_Exp().isBefore(lot.getL_Date().plusMonths(3)) && lot.getP_ID() == product.getP_ID()) {
                         FXMLLoader fxmlLoader = new FXMLLoader();
                         fxmlLoader.setLocation(getClass().getResource("/ku/cs/interfaces/product_exp.fxml"));
                         AnchorPane anchorPane = fxmlLoader.load();
@@ -212,14 +216,38 @@ public class CheckLotController {
         nameLabel.setText(ACCOUNT.getName());
         roleLabel.setText(ACCOUNT.getRole());
         btn_I.setText("Back");
-        Image icon_addProduct = new Image(getClass().getResource("/ku/cs/icons/backButton.png").toExternalForm());
-        iconButton_I.setImage(icon_addProduct);
+        Image icon_back = new Image(getClass().getResource("/ku/cs/icons/backButton.png").toExternalForm());
+        iconButton_I.setImage(icon_back);
 
-        btn_II.setText("Import Stock");
-        Image icon_import = new Image(getClass().getResource("/ku/cs/icons/newOrder.png").toExternalForm());
-        iconButton_II.setImage(icon_import);
+        // todo: Admin
+        if (ACCOUNT.getRole().equals("Admin")) {
+            btn_II.setText("Import Stock");
+            Image icon_import = new Image(getClass().getResource("/ku/cs/icons/newOrder.png").toExternalForm());
+            iconButton_II.setImage(icon_import);
 
-        btn_III.setText("Create Promotion");
+            btn_III.setText("Create Promotion");
+            Image icon_voucher = new Image(getClass().getResource("/ku/cs/icons/voucher.png").toExternalForm());
+            iconButton_III.setImage(icon_voucher);
+
+        }
+
+        // todo: Manager
+        if (ACCOUNT.getRole().equals("Manager")) {
+            btn_II.setText("Create Promotion");
+            Image icon_voucher = new Image(getClass().getResource("/ku/cs/icons/voucher.png").toExternalForm());
+            iconButton_II.setImage(icon_voucher);
+
+            btn_III.setVisible(false);
+        }
+
+        // todo: Employee
+        if (ACCOUNT.getRole().equals("Employee")) {
+            btn_II.setText("Import Stock");
+            Image icon_import = new Image(getClass().getResource("/ku/cs/icons/newOrder.png").toExternalForm());
+            iconButton_II.setImage(icon_import);
+
+            btn_III.setVisible(false);
+        }
     }
 
     @FXML
@@ -236,6 +264,15 @@ public class CheckLotController {
         }
 
         if (event.getSource() == btn_II) {
+            // todo: Create Promotion
+            if (btn_II.getText().equals("Create Promotion")) {
+                try {
+                    FXRouter.goTo("create_promotion", product, 750, 500);
+                } catch (IOException e) {
+                    System.err.println("ไปที่หน้า create_promotion ไม่ได้");
+                    System.err.println("ให้ตรวจสอบการกำหนด route");
+                }
+            }
             // todo: Import Stock
             if (btn_II.getText().equals("Import Stock")) {
                 try {
@@ -251,7 +288,7 @@ public class CheckLotController {
             // todo: Create Promotion
             if (btn_III.getText().equals("Create Promotion")) {
                try {
-                   FXRouter.goTo("create_promotion", 750, 500);
+                   FXRouter.goTo("create_promotion", product, 750, 500);
                } catch (IOException e) {
                    System.err.println("ไปที่หน้า create_promotion ไม่ได้");
                    System.err.println("ให้ตรวจสอบการกำหนด route");

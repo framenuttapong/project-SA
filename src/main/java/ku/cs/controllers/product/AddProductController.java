@@ -59,7 +59,9 @@ public class AddProductController {
                 "vegetables",
                 "fruits"
         );
-        errorLabel.setText("");
+        quantityTextField.setText("0");
+        quantityTextField.setEditable(false);
+        errorLabel.setVisible(false);
         System.out.println("initialize AddProductController");
     }
 
@@ -73,22 +75,18 @@ public class AddProductController {
         if (!isValidProductName(name)) {
             alert.setAlertType(Alert.AlertType.WARNING);
             alert.setContentText("Invalid Name");
-            errorLabel.setText("Invalid Name");
             alert.show();
         } else if (!isValidPrice(price)) {
             alert.setAlertType(Alert.AlertType.WARNING);
             alert.setContentText("Invalid Price");
-            errorLabel.setText("Invalid Price");
             alert.show();
         } else if (!isValidProductType(currentCategory)) {
             alert.setAlertType(Alert.AlertType.WARNING);
             alert.setContentText("Invalid Type");
-            errorLabel.setText("Invalid Type");
             alert.show();
         } else if (selectedFile==null) {
             alert.setAlertType(Alert.AlertType.WARNING);
             alert.setContentText("กรุณาเพิ่มรูปภาพสินค้า");
-            errorLabel.setText("กรุณาเพิ่มรูปภาพสินค้า");
             alert.show();
         } else {
             ConnectionClass connectionClass = new ConnectionClass();
@@ -106,6 +104,9 @@ public class AddProductController {
                 System.err.println("ไปที่หน้า add_product ไม่ได้");
                 System.err.println("ให้ตรวจสอบการกำหนด route");
             }
+            alert.setAlertType(Alert.AlertType.WARNING);
+            alert.setContentText("เพิ่มสินค้าสำเร็จ");
+            alert.show();
 //
         }
     }
