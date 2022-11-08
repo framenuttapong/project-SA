@@ -150,7 +150,7 @@ public class ImportLotController {
         Statement statement = connectDB.createStatement();
         statement.executeUpdate(importStock);
         alert.setAlertType(Alert.AlertType.WARNING);
-        alert.setContentText("เพิ่ม stock สินค้าสำเร็จ");
+        alert.setContentText("Add stock success.");
         alert.show();
             }
         }

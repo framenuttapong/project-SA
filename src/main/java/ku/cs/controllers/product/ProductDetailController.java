@@ -140,7 +140,7 @@ public class ProductDetailController {
     public boolean checkQuantity(int amount) {
         if (amount > this.product.getP_Quantity()) {
             alert.setAlertType(Alert.AlertType.WARNING);
-            alert.setContentText("สินค้าไม่เพียงพอ");
+            alert.setContentText("Product out of stock.");
             alert.show();
             btnBuy.setVisible(false);
             btnPreorder.setVisible(true);
@@ -260,7 +260,7 @@ public class ProductDetailController {
                     queryOrder();
                     confirmCutStock();
                     alert.setAlertType(Alert.AlertType.WARNING);
-                    alert.setContentText("สั่งซื้อสำเร็จ");
+                    alert.setContentText("Success");
                     alert.show();
                     FXRouter.goTo("marketplace", 1000, 600);
                 }

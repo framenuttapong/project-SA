@@ -108,7 +108,7 @@ public class PayController {
         if (event.getSource() == btnPay) {
             changeOPStatus();
             alert.setAlertType(Alert.AlertType.WARNING);
-            alert.setContentText("ชำระเงินสำเร็จ");
+            alert.setContentText("Pay Success");
             alert.show();
             FXRouter.goTo("purchase_orders", 1000, 600);
         }

@@ -130,7 +130,7 @@ public class PreorderController {
                 } else {
                     queryOrder();
                     alert.setAlertType(Alert.AlertType.WARNING);
-                    alert.setContentText("สั่งซื้อสำเร็จ");
+                    alert.setContentText("Success");
                     alert.show();
                     FXRouter.goTo("marketplace", 1000, 600);
                 }

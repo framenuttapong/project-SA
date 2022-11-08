@@ -86,7 +86,7 @@ public class AddProductController {
             alert.show();
         } else if (selectedFile==null) {
             alert.setAlertType(Alert.AlertType.WARNING);
-            alert.setContentText("กรุณาเพิ่มรูปภาพสินค้า");
+            alert.setContentText("Please choose an image.");
             alert.show();
         } else {
             ConnectionClass connectionClass = new ConnectionClass();
@@ -105,7 +105,7 @@ public class AddProductController {
                 System.err.println("ให้ตรวจสอบการกำหนด route");
             }
             alert.setAlertType(Alert.AlertType.WARNING);
-            alert.setContentText("เพิ่มสินค้าสำเร็จ");
+            alert.setContentText("Add product success.");
             alert.show();
 //
         }
@@ -147,7 +147,7 @@ public class AddProductController {
     public boolean isValidProductName(String productName) {
         return ((productName!= null)
                 && (!productName.equals(""))
-                && (productName.matches("^[a-zA-Z]+(.+){1,15}$")));
+                && (productName.matches("^[a-zA-Z]+(.+){1,13}$")));
     }
 
     public boolean isValidPrice(String price) {

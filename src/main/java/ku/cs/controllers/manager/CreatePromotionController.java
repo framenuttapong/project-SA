@@ -180,7 +180,12 @@ public class CreatePromotionController {
             alert.setAlertType(Alert.AlertType.INFORMATION);
             alert.setContentText("Create Promotion Success");
             alert.show();
-
+            try {
+                FXRouter.goTo("create_promotion", 750, 500);
+            } catch (IOException e) {
+                System.err.println("กลับไปที่หน้า create_promotion ไม่ได้");
+                System.err.println("ให้ตรวจสอบการกำหนด route");
+            }
         }
     }
 
@@ -224,7 +229,8 @@ public class CreatePromotionController {
             alert.setAlertType(Alert.AlertType.WARNING);
             alert.setContentText("Invalid Start Date");
             alert.show();
-        } else if (end.equals("") || end.isBefore(start) && end.isBefore(current)) {
+        }
+        if (end.equals("") || end.isBefore(start) || end.isBefore(current)) {
             alert.setAlertType(Alert.AlertType.WARNING);
             alert.setContentText("Invalid End Date");
             alert.show();

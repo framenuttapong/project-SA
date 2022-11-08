@@ -38,6 +38,7 @@ import static ku.cs.controllers.login.LoginController.ACCOUNT;
     @FXML private Circle btnClose;
     @FXML private Circle productImage;
     @FXML private ImageView iconBtn;
+    @FXML private ImageView iconSignOut;
     @FXML private Label roleLabel;
     @FXML private Label nameLabel;
     @FXML private ListView<Order> orderListView;
@@ -61,35 +62,39 @@ import static ku.cs.controllers.login.LoginController.ACCOUNT;
         showOrderListView();
 //        clearSelectReport();
         handleSelectListView();
+        roleLabel.setText(ACCOUNT.getRole());
+        nameLabel.setText(ACCOUNT.getName());
         btn.setText("Back");
         Image icon_back = new Image(getClass().getResource("/ku/cs/icons/backButton.png").toExternalForm());
         iconBtn.setImage(icon_back);
+        Image icon_signOut = new Image(getClass().getResource("/ku/cs/icons/log_out.png").toExternalForm());
+        iconSignOut.setImage(icon_signOut);
         Alert alert = new Alert(Alert.AlertType.NONE);
         System.out.println("initialize ReportController");
     }
 
-//     public class PersonCellFactory implements Callback<ListView<Order>, ListCell<Order>> {
-//         @Override
-//         public ListCell<Order> call(ListView<Order> param) {
-//             return new ListCell<>(){
-//                 @Override
-//                 public void updateItem(Order orderListview, boolean empty) {
-//                     super.updateItem(orderListview, empty);
-//                     if (empty || orderListview == null) {
-//                         setText(null);
-//                     } else {
-//                         setText(orderListview.getOP_ID() + " Customer" + orderListview.getUsername());
-//                     }
-//                 }
-//             };
-//         }
-//     }
+     public class PersonCellFactory implements Callback<ListView<Order>, ListCell<Order>> {
+         @Override
+         public ListCell<Order> call(ListView<Order> param) {
+             return new ListCell<>(){
+                 @Override
+                 public void updateItem(Order orderListview, boolean empty) {
+                     super.updateItem(orderListview, empty);
+                     if (empty || orderListview == null) {
+                         setText(null);
+                     } else {
+                         setText(orderListview.getOP_ID() + " Customer" + orderListview.getUsername());
+                     }
+                 }
+             };
+         }
+     }
 
     public void showOrderListView(){
         for (Order order : orderList) {
             for (Product products : productList) {
                 if (products.getP_ID() == order.getP_ID()) {
-                    orderListView.getItems().addAll((Collection<? extends Order>) orderListView);
+                    orderListView.getItems().addAll(order);
                 }
             }
         }
@@ -114,9 +119,6 @@ import static ku.cs.controllers.login.LoginController.ACCOUNT;
 
         customerName.setText(order.getUsername());
         customerName.setEditable(false);
-
-        roleLabel.setText(ACCOUNT.getRole());
-        nameLabel.setText(ACCOUNT.getName());
 
         for (Product products : productList){
             if (products.getP_ID() == order.getP_ID()){

@@ -122,7 +122,7 @@
                             <children>
                                 <ScrollPane prefHeight="550.0" prefWidth="760.0">
                                     <content>
-                                        <GridPane fx:id="gridProduct" prefHeight="549.0" prefWidth="743.0" styleClass="back-white" stylesheets="@styles/style2.css">
+                                        <GridPane fx:id="gridProduct" prefHeight="549.0" prefWidth="741.0" styleClass="back-white" stylesheets="@styles/style2.css">
                                             <columnConstraints>
                                                 <ColumnConstraints />
                                             </columnConstraints>

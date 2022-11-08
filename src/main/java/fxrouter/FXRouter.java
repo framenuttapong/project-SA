@@ -51,7 +51,7 @@ public final class FXRouter {
     public static void bind(Object ref, Stage win, String winTitle, double winWidth, double winHeight) {
         checkInstances(ref, win);
         // todo: Undecorated
-//        window.initStyle(StageStyle.UNDECORATED);
+        window.initStyle(StageStyle.UNDECORATED);
         windowTitle = winTitle;
         windowWidth = winWidth;
         windowHeight = winHeight;

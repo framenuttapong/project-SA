@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import ku.cs.model.product.Product;
@@ -34,6 +35,8 @@ public class ProductCheckStockController {
         productNameLabel.setText(product.getP_Name());
         priceLabel.setText(product.getP_Price() + " ฿/kg.");
         quantityLabel.setText(product.getP_Quantity() + " kg.");
+        Color paint = new Color(1.0, 0.0, 0.0, 1.0); // todo: Text Red
+        quantityLabel.setTextFill(paint);
 
     }
 
